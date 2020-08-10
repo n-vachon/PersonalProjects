@@ -2,6 +2,10 @@
 #include <random> //std::default_random_engine
 #include <algorithm> //std::shuffle
 #include <chrono> //std::chrono::system_clock
+#include <string>
+#include <sstream> 
+
+using namespace std;
 
 //create a 53 card deck where the last card is 0J standing for Joker
 Deck::Deck()
@@ -79,6 +83,7 @@ void Deck::removeplayer(int index)
 
 void Deck::play()
 {
+    string input = "";
     //while no loser has been determined and game is not done
     while (!isDone())
     {
@@ -92,10 +97,22 @@ void Deck::play()
             //print current player's hand
             players[i].print();
             //ask player to pick card from player to left
-            std::cout<<"pick one card from the other player's hand (1 - ";
-            std::cout<<players[nextplayer].cardsLeft();
-            std::cout<<") \n";
-            std::cin>>cardselect;
+            //found on cplusplus.com
+            while (true) {
+                std::cout<<"pick one card from the other player's hand (1 - ";
+                std::cout<<players[nextplayer].cardsLeft();
+                std::cout<<") \n";
+                getline(std::cin, input);
+
+                // This code converts from string to number safely.
+                stringstream myStream(input);
+                if (myStream >> cardselect)
+                {
+                    if (cardselect > 0 && cardselect <= players[nextplayer].cardsLeft())
+                        break;
+                }
+                cout << "Invalid number, please try again" << endl;
+            }
             //move that card to current player's hand
             // the giveCard function also removes the card from that player's hand
             players[i].addCard(players[nextplayer].giveCard(cardselect-1));
