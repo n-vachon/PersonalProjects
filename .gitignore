@@ -1,0 +1,5 @@
+*.ojb
+*.exe
+*.ilk
+*.pdb
+**/.vscode/
