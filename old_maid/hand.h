@@ -12,7 +12,8 @@ class Hand
     void printBack();
     void checkPairs();
     int getID() {return ID;}
-    bool isempty();
+    int cardsLeft();
+    Card giveCard(int index);
 
     private:
     int ID;

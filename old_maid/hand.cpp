@@ -64,7 +64,14 @@ void Hand::checkPairs()
     }
 }
 
-bool Hand::isempty() 
+int Hand::cardsLeft()
 {
-    return (myhand.size() == 0);
+    return myhand.size();
+}
+
+Card Hand::giveCard(int index)
+{
+    Card togive = myhand[index];
+    myhand.erase(myhand.begin()+index);
+    return togive;
 }

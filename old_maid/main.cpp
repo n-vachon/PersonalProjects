@@ -24,6 +24,8 @@ int main() {
     //{
         deck1.deal(playercount);
     //}
+
+    deck1.play();
     
     return 0;
 }

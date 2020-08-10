@@ -59,7 +59,7 @@ void Deck::deal(int playercount)
 }
 
 //check if only one player is remaining in the game
-void Deck::isDone()
+bool Deck::isDone()
 {
     if (players.size() == 1)
     {
@@ -69,6 +69,7 @@ void Deck::isDone()
         std::cout<<players[0].getID();
         std::cout<<", you have the old maid so you lose! \n";
     }
+    return loser;
 }
 
 void Deck::removeplayer(int index)
@@ -78,20 +79,41 @@ void Deck::removeplayer(int index)
 
 void Deck::play()
 {
-    //while no loser has been determined
-    while (!loser)
+    //while no loser has been determined and game is not done
+    while (!isDone())
     {
         //for each player still playing
         for (int i=0; i<players.size(); i++)
         {
+            int nextplayer = (i+1)%players.size();
+            int cardselect;
             //show player to left's cards as Xs
-            players[(i+1)%players.size()].printBack();
+            players[nextplayer].printBack();
             //print current player's hand
             players[i].print();
             //ask player to pick card from player to left
+            std::cout<<"pick one card from the other player's hand (1 - ";
+            std::cout<<players[nextplayer].cardsLeft();
+            std::cout<<") \n";
+            std::cin>>cardselect;
             //move that card to current player's hand
+            // the giveCard function also removes the card from that player's hand
+            players[i].addCard(players[nextplayer].giveCard(cardselect-1));
             //check for pairs
+            players[i].checkPairs();
+
+            //to test
+            players[i].print();
+
             //check if empty and possibly remove from players vector
+            if (players[i].cardsLeft() == 0)
+            {
+                removeplayer(i);
+            }
+            if (players[nextplayer].cardsLeft() == 0)
+            {
+                removeplayer(nextplayer);
+            }
         }
     }
 }

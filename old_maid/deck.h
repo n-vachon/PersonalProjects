@@ -10,7 +10,7 @@ class Deck
     void shuffledeck();
     void deal(int playercount);
     void play();
-    void isDone();
+    bool isDone();
 
     private:
     std::vector<Card> deck;
